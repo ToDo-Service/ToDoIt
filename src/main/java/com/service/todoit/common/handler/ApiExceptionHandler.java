@@ -22,6 +22,6 @@ public class ApiExceptionHandler {
         ResponseCodeIfs errorCode = e.getResponseCodeIfs();
 
         return ResponseEntity.status(errorCode.getStatusCode())
-                .body(Api.ERROR(errorCode, e.getErrorDescription()));
+                .body(Api.ERROR(errorCode, errorCode.getStatusMessage()));
     }
 }
