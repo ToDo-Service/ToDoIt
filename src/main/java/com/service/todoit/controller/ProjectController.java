@@ -1,6 +1,7 @@
 package com.service.todoit.controller;
 
 import com.service.todoit.common.api.Api;
+import com.service.todoit.domain.project.dto.ProjectDto;
 import com.service.todoit.domain.project.dto.ProjectRequestDto;
 import com.service.todoit.domain.project.dto.ProjectResponseDto;
 import com.service.todoit.domain.project.dto.ProjectWithTodoListResponseDto;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -58,6 +61,16 @@ public class ProjectController {
         ProjectWithTodoListResponseDto response = projectService.getProject(projectId, authentication);
         return ResponseEntity.ok()
                 .body(Api.OK("프로젝트에 속한 일정을 조회했습니다.", response));
+    }
+
+    @GetMapping("/project")
+    public ResponseEntity<?> getProjects(
+            Authentication authentication
+    ) {
+        Long userId = Long.valueOf((String) authentication.getPrincipal());
+        List<ProjectDto> response = projectService.getProjectList(userId);
+        return ResponseEntity.ok()
+                .body(Api.OK("프로젝트 리스트를 조회했습니다.", response));
     }
 
 }
