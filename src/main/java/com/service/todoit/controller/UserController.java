@@ -1,10 +1,14 @@
 package com.service.todoit.controller;
 
 import com.service.todoit.common.api.Api;
+import com.service.todoit.domain.project.dto.ProjectDto;
 import com.service.todoit.domain.user.User;
+import com.service.todoit.domain.user.dto.LoginResponse;
 import com.service.todoit.domain.user.dto.OauthUser;
+import com.service.todoit.domain.user.dto.UserDto;
 import com.service.todoit.sercurity.jwt.JwtTokens;
 import com.service.todoit.sercurity.jwt.TokenProvider;
+import com.service.todoit.service.ProjectService;
 import com.service.todoit.service.UserService;
 import com.service.todoit.util.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +29,7 @@ public class UserController {
 
     private final UserService userService;
     private final TokenProvider tokenProvider;
+    private final ProjectService projectService;
 
     @PostMapping("/social/{type}")
     public ResponseEntity<Api<?>> googleLogin(
@@ -37,11 +42,15 @@ public class UserController {
         OauthUser oauthUser = userService.getUserInfo(accessToken, type);
         User user = userService.saveAndGetUser(oauthUser, type);
 
+        List<ProjectDto> projects = projectService.getProjectList(user.getId());
+
         JwtTokens tokens = tokenProvider.issueTokens(user);
+
+        LoginResponse loginResponse = new LoginResponse(UserDto.From(user, tokens.getAccessToken()), projects);
 
         CookieUtil.addCookie(response, "refreshToken", tokens.getRefreshToken());
         return ResponseEntity.<Api<?>>ok()
-                .body(Api.OK("로그인이 성공적으로 수행되었습니다.", user));
+                .body(Api.OK("로그인이 성공적으로 수행되었습니다.", loginResponse));
     }
 
 }
