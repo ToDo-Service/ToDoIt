@@ -68,7 +68,7 @@ public class ProjectController {
             Authentication authentication
     ) {
         Long userId = Long.valueOf((String) authentication.getPrincipal());
-        List<ProjectDto> response = projectService.getProjectList(userId);
+        List<ProjectResponseDto> response = projectService.getProjectList(userId);
         return ResponseEntity.ok()
                 .body(Api.OK("프로젝트 리스트를 조회했습니다.", response));
     }

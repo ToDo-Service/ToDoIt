@@ -2,6 +2,7 @@ package com.service.todoit.controller;
 
 import com.service.todoit.common.api.Api;
 import com.service.todoit.domain.project.dto.ProjectDto;
+import com.service.todoit.domain.project.dto.ProjectResponseDto;
 import com.service.todoit.domain.user.User;
 import com.service.todoit.domain.user.dto.LoginResponse;
 import com.service.todoit.domain.user.dto.OauthUser;
@@ -42,7 +43,7 @@ public class UserController {
         OauthUser oauthUser = userService.getUserInfo(accessToken, type);
         User user = userService.saveAndGetUser(oauthUser, type);
 
-        List<ProjectDto> projects = projectService.getProjectList(user.getId());
+        List<ProjectResponseDto> projects = projectService.getProjectList(user.getId());
 
         JwtTokens tokens = tokenProvider.issueTokens(user);
 
