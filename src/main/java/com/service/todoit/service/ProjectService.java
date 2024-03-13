@@ -28,9 +28,9 @@ public class ProjectService {
     private final TodoRepository todoRepository;
 
     @Transactional(readOnly = true)
-    public List<ProjectDto> getProjectList(Long id) {
+    public List<ProjectResponseDto> getProjectList(Long id) {
         return projectRepository.findAllByUserId(id)
-                .stream().map(ProjectDto::From).toList();
+                .stream().map(ProjectResponseDto::from).toList();
     }
 
     @Transactional
