@@ -71,6 +71,14 @@ public class TodoService {
     }
 
     @Transactional(readOnly = true)
+    public List<TodoResponse> getDayTodo(Authentication authentication, LocalDate date) {
+        Long userId = Long.valueOf((String) authentication.getPrincipal());
+
+        return todoRepository.findAllByUserIdAndEndDate(userId, date)
+                .stream().map(TodoResponse::From).toList();
+    }
+
+    @Transactional(readOnly = true)
     public List<TodoResponse> getWeekTodo(Authentication authentication, LocalDate date) {
         Long userId = Long.valueOf((String) authentication.getPrincipal());
         LocalDate endDate = date.plusDays(6);

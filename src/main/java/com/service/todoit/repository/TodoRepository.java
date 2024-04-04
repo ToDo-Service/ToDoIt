@@ -21,7 +21,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     // 한주 일정 조회
     List<Todo> findAllByUserIdAndEndDateBetweenOrderByEndDateAsc(Long id, LocalDate startDate, LocalDate endDate);
 
-    List<Todo> findAllByProjectAndStatusOrderByEndDateAsc(Project project, TodoStatus status);
+    List<Todo> findAllByProjectOrderByEndDateAsc(Project project);
 
     @Modifying
     @Query("update Todo t set t.project = null where t.project.id = :projectId")

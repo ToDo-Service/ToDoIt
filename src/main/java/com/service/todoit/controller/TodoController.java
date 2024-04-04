@@ -72,6 +72,16 @@ public class TodoController {
                 .body(Api.OK("오늘 일정이 성공적으로 조회되었습니다.", response));
     }
 
+    @GetMapping("/todos/day")
+    public ResponseEntity<?> getDayTodos(
+            Authentication authentication,
+            @RequestParam LocalDate date
+    ) {
+        List<TodoResponse> todoList = todoService.getDayTodo(authentication, date);
+        return ResponseEntity.ok()
+                .body(Api.OK("일간 일정이 성공적으로 조회되었습니다.", todoList));
+    }
+
     @GetMapping("/todos/week")
     public ResponseEntity<?> getWeekTodos(
             Authentication authentication,

@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class ProjectDto {
 
     private Long id;
+    private String title;
     private String description;
     private String color;
     private LocalDate endDate;
@@ -23,6 +24,7 @@ public class ProjectDto {
     public static ProjectDto From(Project project) {
         return ProjectDto.builder()
                 .id(project.getId())
+                .title(project.getTitle())
                 .description(project.getDescription())
                 .color(project.getColor())
                 .endDate(project.getEndDate())

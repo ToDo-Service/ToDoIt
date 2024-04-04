@@ -86,7 +86,7 @@ public class ProjectService {
             throw new ApiException(ResponseCode.UNAUTHORIZED);
         }
 
-        List<TodoWithoutProjectResponseDto> todoList = todoRepository.findAllByProjectAndStatusOrderByEndDateAsc(project, TodoStatus.INCOMPLETE)
+        List<TodoWithoutProjectResponseDto> todoList = todoRepository.findAllByProjectOrderByEndDateAsc(project)
                 .stream().map(TodoWithoutProjectResponseDto::From).toList();
 
         return new ProjectWithTodoListResponseDto(ProjectResponseDto.from(project), todoList);
