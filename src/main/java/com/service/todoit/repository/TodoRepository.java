@@ -23,6 +23,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     List<Todo> findAllByProjectOrderByEndDateAsc(Project project);
 
+
     @Modifying
     @Query("update Todo t set t.project = null where t.project.id = :projectId")
     void updateTodo(Long projectId);

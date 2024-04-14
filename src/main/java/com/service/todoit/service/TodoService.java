@@ -111,4 +111,12 @@ public class TodoService {
 
         return todo.getStatus();
     }
+
+    public List<TodoResponse> getYearTodo(Authentication authentication, Integer year) {
+        Long userId = Long.valueOf((String) authentication.getPrincipal());
+        LocalDate startDate = LocalDate.of(year, 1, 1);
+        LocalDate endDate = LocalDate.of(year,12,31);
+        return todoRepository.findAllByUserIdAndEndDateBetweenOrderByEndDateAsc(userId, startDate, endDate)
+                .stream().map(TodoResponse::From).toList();
+    }
 }

@@ -26,7 +26,6 @@ public class TodoController {
         @RequestBody RequestTodo todo,
         Authentication authentication
     ) {
-        System.out.println(todo);
         TodoResponse todoEntity = todoService.saveTodo(todo, authentication);
 
         return ResponseEntity.ok()
@@ -101,6 +100,16 @@ public class TodoController {
         List<TodoResponse> todoList = todoService.getMonthTodo(authentication, year, month);
         return ResponseEntity.ok()
                 .body(Api.OK("월간 일정이 성공적으로 조회되었습니다.", todoList));
+
+    }
+    @GetMapping("/todos/year")
+    public ResponseEntity<?> getYearTodos(
+            Authentication authentication,
+            @RequestParam Integer year
+    ) {
+        List<TodoResponse> todoList = todoService.getYearTodo(authentication, year);
+        return ResponseEntity.ok()
+                .body(Api.OK("연간 일정이 성공적으로 조회되었습니다.", todoList));
 
     }
 
